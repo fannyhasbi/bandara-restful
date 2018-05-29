@@ -9,6 +9,7 @@ Flight::route('GET /', function(){
 });
 
 Flight::route('GET /api/bandara', [$api, 'bandara']);
+Flight::route('POST /api/bandara', [$api, 'tambah_bandara']);
 
 Flight::route('GET /api/pesawat', [$api, 'pesawat']);
 
