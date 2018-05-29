@@ -81,7 +81,10 @@ class Api {
           INSERT INTO bandara VALUES ('$kode', '$nama', '$kota', '$negara')
         ";
 
-        mysqli_query($this->koneksi, $q);
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
 
         $show = array(
           'status' => 200,
@@ -126,7 +129,10 @@ class Api {
           UPDATE bandara SET nama = '$nama', kota = '$kota', negara = '$negara' WHERE kode_bandara = '$kode'
         ";
 
-        mysqli_query($this->koneksi, $q);
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
 
         $show = array(
           'status' => 200,
@@ -162,7 +168,11 @@ class Api {
       $q = "SELECT * FROM bandara WHERE kode_bandara = '$kode'";
       if(mysqli_query($this->koneksi, $q)->num_rows > 0){
         $q = "DELETE FROM bandara WHERE kode_bandara = '$kode'";
-        mysqli_query($this->koneksi, $q);
+        
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
 
         $show = array(
           'status' => 200,
