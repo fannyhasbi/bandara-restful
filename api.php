@@ -310,6 +310,44 @@ class Api {
     Flight::json($show);
   }
 
+  public function delete_pesawat(){
+    if(!isset(Flight::request()->data->kode)){
+      $this->response400();
+      return;
+    }
+
+    $kode = $this->purify(Flight::request()->data->kode);
+
+
+    try {
+      $q = "SELECT * FROM pesawat WHERE kode_pesawat = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows > 0){
+        $q = "DELETE FROM pesawat WHERE kode_pesawat = '$kode'";
+        
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
+
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode
+          )
+        );
+
+        Flight::json($show);
+      }
+      else {
+        $this->response404();
+        return;
+      }
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
+  }
+
   /**
     ********************
     * End Pesawat
