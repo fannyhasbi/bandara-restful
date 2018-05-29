@@ -82,8 +82,7 @@ class Api {
         ";
 
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
@@ -130,8 +129,7 @@ class Api {
         ";
 
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
@@ -170,8 +168,7 @@ class Api {
         $q = "DELETE FROM bandara WHERE kode_bandara = '$kode'";
         
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
@@ -234,8 +231,7 @@ class Api {
         ";
 
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
@@ -284,8 +280,7 @@ class Api {
         ";
 
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
@@ -298,6 +293,8 @@ class Api {
             'pabrik'    => $pabrik
           )
         );
+
+        Flight::json($show);
       }
       else {
         $this->response404();
@@ -307,7 +304,6 @@ class Api {
       $this->responseError();
     }
 
-    Flight::json($show);
   }
 
   public function delete_pesawat(){
@@ -325,8 +321,7 @@ class Api {
         $q = "DELETE FROM pesawat WHERE kode_pesawat = '$kode'";
         
         if(!mysqli_query($this->koneksi, $q)){
-          $this->responseError();
-          return;
+          throw new Exception('Query error');
         }
 
         $show = array(
