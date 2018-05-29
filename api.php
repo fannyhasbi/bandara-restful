@@ -204,6 +204,52 @@ class Api {
     Flight::json($show);
   }
 
+  public function update_pesawat(){
+    if(!(isset(Flight::request()->data->kode) && isset(Flight::request()->data->nama) && isset(Flight::request()->data->maskapai) && isset(Flight::request()->data->kapasitas) && isset(Flight::request()->data->pabrik))){
+      $this->response400();
+      return;
+    }
+
+    $kode = $this->purify(Flight::request()->data->kode);
+    $nama = $this->purify(Flight::request()->data->nama);
+    $maskapai  = $this->purify(Flight::request()->data->maskapai);
+    $kapasitas = $this->purify(Flight::request()->data->kapasitas);
+    $pabrik    = $this->purify(Flight::request()->data->pabrik);
+
+    try {
+      $q = "SELECT * FROM pesawat WHERE kode_pesawat = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows > 0){
+        $q = "
+          UPDATE pesawat SET nama = '$nama', kode_maskapai = '$maskapai', kapasitas = ". (int)$kapasitas .", kode_pabrik = '$pabrik' WHERE kode_pesawat = '$kode'
+        ";
+
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
+
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode,
+            'nama' => $nama,
+            'maskapai'  => $maskapai,
+            'kapasitas' => $kapasitas,
+            'pabrik'    => $pabrik
+          )
+        );
+      }
+      else {
+        $this->response404();
+      }
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
+
+    Flight::json($show);
+  }
+
   /**
     ********************
     * End Pesawat
