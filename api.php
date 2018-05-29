@@ -15,6 +15,14 @@ class Api {
     Flight::json($show);
   }
 
+  private function responseError(){
+    $show = array(
+      'status' => 500,
+      'message' => 'Internal Error'
+    );
+    Flight::json($show);
+  }
+
   public function __construct(){
     $this->koneksi = mysqli_connect("localhost", "root", "", "bandara") OR die(mysql_error());
 
@@ -105,6 +113,33 @@ class Api {
     );
 
     Flight::json($show);
+  }
+
+  public function delete_bandara(){
+    if(!isset(Flight::request()->data->kode)){
+      $this->response400();
+      return;
+    }
+
+    $kode = $this->purify(Flight::request()->data->kode);
+
+    $q = "DELETE FROM bandara WHERE kode_bandara = '$kode'";
+
+    try {
+      mysqli_query($this->koneksi, $q);
+
+      $show = array(
+        'status' => 200,
+        'data' => array(
+          'kode' => $kode
+        )
+      );
+
+      Flight::json($show);
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
   }
 
   /**

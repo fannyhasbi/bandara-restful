@@ -11,6 +11,7 @@ Flight::route('GET /', function(){
 Flight::route('GET /api/bandara', [$api, 'bandara']);
 Flight::route('POST /api/bandara', [$api, 'tambah_bandara']);
 Flight::route('POST /api/bandara-update', [$api, 'update_bandara']);
+Flight::route('POST /api/bandara-delete', [$api, 'delete_bandara']);
 
 Flight::route('GET /api/pesawat', [$api, 'pesawat']);
 
