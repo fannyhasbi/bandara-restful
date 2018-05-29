@@ -10,6 +10,12 @@ Flight::route('GET /', function(){
 
 Flight::route('GET /api/bandara', [$api, 'bandara']);
 
+Flight::route('GET /api/pesawat', [$api, 'pesawat']);
+
+Flight::route('GET /api/takeoff', [$api, 'takeoff']);
+
+Flight::route('GET /api/landing', [$api, 'landing']);
+
 Flight::route('GET *', function(){
   Flight::redirect('/');
 });
