@@ -31,6 +31,10 @@ class Api {
     mysqli_close($this->koneksi);
   }
 
+  /**
+    * Start Bandara
+    */
+
   public function bandara(){
     $q = "SELECT * FROM bandara";
     $hasil = mysqli_query($this->koneksi, $q);
@@ -44,7 +48,6 @@ class Api {
   }
 
   public function tambah_bandara(){
-    // var_dump(Flight::request()); die();
     if(!(isset(Flight::request()->data->kode) && isset(Flight::request()->data->nama) && isset(Flight::request()->data->kota) && isset(Flight::request()->data->negara))){
       $this->response400();
       return;
@@ -74,6 +77,45 @@ class Api {
     Flight::json($show);
   }
 
+  public function update_bandara(){
+    if(!(isset(Flight::request()->data->kode) && isset(Flight::request()->data->nama) && isset(Flight::request()->data->kota) && isset(Flight::request()->data->negara))){
+      $this->response400();
+      return;
+    }
+
+    $kode = $this->purify(Flight::request()->data->kode);
+    $nama = $this->purify(Flight::request()->data->nama);
+    $kota = $this->purify(Flight::request()->data->kota);
+    $negara = $this->purify(Flight::request()->data->negara);
+
+    $q = "
+      UPDATE bandara SET nama = '$nama', kota = '$kota', negara = '$negara' WHERE kode_bandara = '$kode'
+    ";
+
+    mysqli_query($this->koneksi, $q);
+
+    $show = array(
+      'status' => 200,
+      'data' => array(
+        'kode' => $kode,
+        'nama' => $nama,
+        'kota' => $kota,
+        'negara' => $negara
+      )
+    );
+
+    Flight::json($show);
+  }
+
+  /**
+    * End Bandara
+    */
+
+
+  /**
+    * Start Pesawat
+    */
+
   public function pesawat(){
     $q = "SELECT * FROM pesawat";
     $hasil = mysqli_query($this->koneksi, $q);
@@ -85,6 +127,16 @@ class Api {
 
     Flight::json($show);
   }
+
+  /**
+    ********************
+    * End Pesawat
+    ********************
+    */
+
+  /**
+    * Start Take Off
+    */
 
   public function takeoff(){
     $q = "
@@ -113,6 +165,16 @@ class Api {
     Flight::json($show);
   }
 
+  /**
+    ********************
+    * End Take Off
+    ********************
+    */
+
+  /**
+    * Start Landing
+    */
+
   public function landing(){
     $q = "
       SELECT l.id_lnd,
@@ -139,5 +201,11 @@ class Api {
 
     Flight::json($show);
   }
+
+  /**
+    ********************
+    * End Landing
+    ********************
+    */
 
 }
