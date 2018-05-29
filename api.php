@@ -214,6 +214,56 @@ class Api {
     Flight::json($show);
   }
 
+  public function tambah_pesawat(){
+    if(!(isset(Flight::request()->data->kode) && isset(Flight::request()->data->nama) && isset(Flight::request()->data->maskapai) && isset(Flight::request()->data->kapasitas) && isset(Flight::request()->data->pabrik))){
+      $this->response400();
+      return;
+    }
+
+    $kode = $this->purify(Flight::request()->data->kode);
+    $nama = $this->purify(Flight::request()->data->nama);
+    $maskapai  = $this->purify(Flight::request()->data->maskapai);
+    $kapasitas = $this->purify(Flight::request()->data->kapasitas);
+    $pabrik    = $this->purify(Flight::request()->data->pabrik);
+
+    try {
+      $q = "SELECT * FROM pesawat WHERE kode_pesawat = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows == 0){
+        $q = "
+          INSERT INTO pesawat VALUES ('$kode', '$nama', ". (int)$kapasitas .", '$maskapai', '$pabrik')
+        ";
+
+        if(!mysqli_query($this->koneksi, $q)){
+          $this->responseError();
+          return;
+        }
+
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode,
+            'nama' => $nama,
+            'maskapai'  => $maskapai,
+            'kapasitas' => $kapasitas,
+            'pabrik'    => $pabrik
+          )
+        );
+
+        Flight::json($show);
+      }
+      else {
+        $show = array(
+          'status' => 400,
+          'message' => 'Cannot add more data with code '. $kode
+        );
+        Flight::json($show);
+      }
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
+  }
+
   public function update_pesawat(){
     if(!(isset(Flight::request()->data->kode) && isset(Flight::request()->data->nama) && isset(Flight::request()->data->maskapai) && isset(Flight::request()->data->kapasitas) && isset(Flight::request()->data->pabrik))){
       $this->response400();
