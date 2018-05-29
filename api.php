@@ -15,6 +15,14 @@ class Api {
     Flight::json($show);
   }
 
+  private function response404(){
+    $show = array(
+      'status' => 404,
+      'message' => 'Not Found'
+    );
+    Flight::json($show);
+  }
+
   private function responseError(){
     $show = array(
       'status' => 500,
@@ -66,23 +74,38 @@ class Api {
     $kota = $this->purify(Flight::request()->data->kota);
     $negara = $this->purify(Flight::request()->data->negara);
 
-    $q = "
-      INSERT INTO bandara VALUES ('$kode', '$nama', '$kota', '$negara')
-    ";
+    try {
+      $q = "SELECT * FROM bandara WHERE kode_bandara = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows == 0){
+        $q = "
+          INSERT INTO bandara VALUES ('$kode', '$nama', '$kota', '$negara')
+        ";
 
-    mysqli_query($this->koneksi, $q);
+        mysqli_query($this->koneksi, $q);
 
-    $show = array(
-      'status' => 200,
-      'data' => array(
-        'kode' => $kode,
-        'nama' => $nama,
-        'kota' => $kota,
-        'negara' => $negara
-      )
-    );
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode,
+            'nama' => $nama,
+            'kota' => $kota,
+            'negara' => $negara
+          )
+        );
 
-    Flight::json($show);
+        Flight::json($show);
+      }
+      else {
+        $show = array(
+          'status' => 400,
+          'message' => 'Cannot add more data with code '. $kode
+        );
+        Flight::json($show);
+      }
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
   }
 
   public function update_bandara(){
@@ -96,23 +119,34 @@ class Api {
     $kota = $this->purify(Flight::request()->data->kota);
     $negara = $this->purify(Flight::request()->data->negara);
 
-    $q = "
-      UPDATE bandara SET nama = '$nama', kota = '$kota', negara = '$negara' WHERE kode_bandara = '$kode'
-    ";
+    try {
+      $q = "SELECT * FROM bandara WHERE kode_bandara = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows > 0){
+        $q = "
+          UPDATE bandara SET nama = '$nama', kota = '$kota', negara = '$negara' WHERE kode_bandara = '$kode'
+        ";
 
-    mysqli_query($this->koneksi, $q);
+        mysqli_query($this->koneksi, $q);
 
-    $show = array(
-      'status' => 200,
-      'data' => array(
-        'kode' => $kode,
-        'nama' => $nama,
-        'kota' => $kota,
-        'negara' => $negara
-      )
-    );
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode,
+            'nama' => $nama,
+            'kota' => $kota,
+            'negara' => $negara
+          )
+        );
 
-    Flight::json($show);
+        Flight::json($show);
+      }
+      else {
+        $this->response404();
+      }
+    }
+    catch(Exception $e){
+      $this->responseError();
+    }
   }
 
   public function delete_bandara(){
@@ -123,19 +157,26 @@ class Api {
 
     $kode = $this->purify(Flight::request()->data->kode);
 
-    $q = "DELETE FROM bandara WHERE kode_bandara = '$kode'";
 
     try {
-      mysqli_query($this->koneksi, $q);
+      $q = "SELECT * FROM bandara WHERE kode_bandara = '$kode'";
+      if(mysqli_query($this->koneksi, $q)->num_rows > 0){
+        $q = "DELETE FROM bandara WHERE kode_bandara = '$kode'";
+        mysqli_query($this->koneksi, $q);
 
-      $show = array(
-        'status' => 200,
-        'data' => array(
-          'kode' => $kode
-        )
-      );
+        $show = array(
+          'status' => 200,
+          'data' => array(
+            'kode' => $kode
+          )
+        );
 
-      Flight::json($show);
+        Flight::json($show);
+      }
+      else {
+        $this->response404();
+        return;
+      }
     }
     catch(Exception $e){
       $this->responseError();
