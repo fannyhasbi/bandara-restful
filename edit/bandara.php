@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['login'])){
-  header("Location: http://localhost/bandara/login.php");
+  header("Location: http://localhost/data_bandara/login.php");
 }
 
 include "header.php";
@@ -17,7 +17,7 @@ if(isset($_POST['tambah'])){
 
     $q = "UPDATE bandara SET kode_bandara = '". $k ."', nama = '". $n ."', kota = '". $t ."', negara = '". $g ."' WHERE kode_bandara = '". $_POST['kode_awal'] ."'";
     if(mysqli_query($con, $q)){
-      header("Location: http://localhost/bandara/bandara.php");
+      header("Location: http://localhost/data_bandara/bandara.php");
     }
     else {
       $err = "Terjadi kesalahan, coba beberapa saat lagi";
@@ -29,7 +29,7 @@ if(isset($_POST['tambah'])){
 }
 
 if(!isset($_GET['kode']))
-  header("Location: http://localhost/bandara/login.php");
+  header("Location: http://localhost/data_bandara/login.php");
 
 $kode = purify($_GET['kode']);
 $qu = "SELECT * FROM bandara WHERE kode_bandara = '". $kode ."'";

@@ -8,19 +8,19 @@ Flight::route('GET /', function(){
     Flight::render('home.php');
 });
 
-Flight::route('GET /api/bandara', [$api, 'bandara']);
-Flight::route('POST /api/bandara', [$api, 'tambah_bandara']);
-Flight::route('POST /api/bandara-update', [$api, 'update_bandara']);
-Flight::route('POST /api/bandara-delete', [$api, 'delete_bandara']);
+Flight::route('GET /bandara', [$api, 'bandara']);
+Flight::route('POST /bandara', [$api, 'tambah_bandara']);
+Flight::route('POST /bandara-update', [$api, 'update_bandara']);
+Flight::route('POST /bandara-delete', [$api, 'delete_bandara']);
 
-Flight::route('GET /api/pesawat', [$api, 'pesawat']);
-Flight::route('POST /api/pesawat', [$api, 'tambah_pesawat']);
-Flight::route('POST /api/pesawat-update', [$api, 'update_pesawat']);
-Flight::route('POST /api/pesawat-delete', [$api, 'delete_pesawat']);
+Flight::route('GET /pesawat', [$api, 'pesawat']);
+Flight::route('POST /pesawat', [$api, 'tambah_pesawat']);
+Flight::route('POST /pesawat-update', [$api, 'update_pesawat']);
+Flight::route('POST /pesawat-delete', [$api, 'delete_pesawat']);
 
-Flight::route('GET /api/takeoff', [$api, 'takeoff']);
+Flight::route('GET /takeoff', [$api, 'takeoff']);
 
-Flight::route('GET /api/landing', [$api, 'landing']);
+Flight::route('GET /landing', [$api, 'landing']);
 
 Flight::route('GET *', function(){
   Flight::redirect('/');

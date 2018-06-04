@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['login'])){
-  header("Location: http://localhost/bandara/login.php");
+  header("Location: http://localhost/data_bandara/login.php");
 }
 else {
   include "../function/koneksi.php";
@@ -16,13 +16,13 @@ else {
     $_SESSION['del_res'] = true;
     $_SESSION['del_key'] = 'bandara';
     $_SESSION['del_data'] = $kode;
-    header("Location: http://localhost/bandara/bandara.php");
+    header("Location: http://localhost/data_bandara/bandara.php");
   }
   else {
     $_SESSION['del'] = true;
     $_SESSION['del_res'] = false;
     $_SESSION['del_key'] = 'bandara';
     $_SESSION['del_data'] = $kode;
-    header("Location: http://localhost/bandara/bandara.php");
+    header("Location: http://localhost/data_bandara/bandara.php");
   }
 }

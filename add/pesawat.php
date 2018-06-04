@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['login'])){
-  header("Location: http://localhost/bandara/login.php");
+  header("Location: http://localhost/data_bandara/login.php");
 }
 
 include "header.php";
@@ -18,7 +18,7 @@ if(isset($_POST['tambah'])){
 
     $q = "INSERT INTO pesawat VALUES ('". $k ."', '". $n ."', '". $s ."', '". $m ."', '". $p ."')";
     if(mysqli_query($con, $q)){
-      header("Location: http://localhost/bandara/pesawat.php");
+      header("Location: http://localhost/data_bandara/pesawat.php");
     }
     else {
       $err = "Terjadi kesalahan, coba beberapa saat lagi";

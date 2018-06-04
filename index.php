@@ -22,7 +22,7 @@ session_start();
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="<?= 'http://localhost/bandara'?>" class="navbar-brand">Ahmad Yani</a>
+      <a href="<?= 'http://localhost/data_bandara'?>" class="navbar-brand">Ahmad Yani</a>
     </div>
     <div class="collapse navbar-collapse" id="navigasi">
       <ul class="nav navbar-nav navbar-right">

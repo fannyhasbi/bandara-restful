@@ -18,7 +18,7 @@
   <?php if(isset($_SESSION['login'])){ ?>
   <div class="row">
     <div class="col-md-4 col-md-offset-4 text-center">
-      <a href="http://localhost/bandara/add/bandara.php" class="tombol tombol-info btn-block"><i class="fa fa-plus"></i> Tambah</a>
+      <a href="http://localhost/data_bandara/add/bandara.php" class="tombol tombol-info btn-block"><i class="fa fa-plus"></i> Tambah</a>
     </div>
   </div>
   <hr>
@@ -78,8 +78,8 @@
         <td><?= $r['negara']; ?></td>
         <?php if(isset($_SESSION['login'])): ?>
         <td>
-          <a href="http://localhost/bandara/edit/bandara.php?kode=<?= $r['kode_bandara'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
-          <a href="http://localhost/bandara/del/bandara.php?kode=<?= $r['kode_bandara'] ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
+          <a href="http://localhost/data_bandara/edit/bandara.php?kode=<?= $r['kode_bandara'] ?>" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+          <a href="http://localhost/data_bandara/del/bandara.php?kode=<?= $r['kode_bandara'] ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Hapus</a>
         </td>
         <?php endif; ?>
       </tr>
